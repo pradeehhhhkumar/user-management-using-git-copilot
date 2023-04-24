@@ -7,6 +7,19 @@ const controller = {
   // write sample register function with async
   register: async (req, res) => {
     try {
+
+      // check if user already exists
+      const userExists = await UserModel.findOne({
+        email: req.body?.email,
+      });
+      // send response for user already exists
+      if (userExists) {
+        return res.status(400).json({
+          status: "failure",
+          message: "User already exists",
+        });
+      }
+
       // register controller for user
       const user = await UserModel.create(req.body);
       console.log("User :: ", user);
