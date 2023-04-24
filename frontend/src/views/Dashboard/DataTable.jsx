@@ -1,4 +1,4 @@
-import { IconButton, Paper } from "@mui/material";
+import { Button, IconButton, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import "./dashboard.css";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
 
-function DataTable({ rows, handleDeleteUser }) {
+function DataTable({ rows, handleDeleteUser, handleUpdateUser }) {
   const navigate = useNavigate();
 
   const statusButton = (params) => {
@@ -18,23 +18,27 @@ function DataTable({ rows, handleDeleteUser }) {
           return Swal.fire({
             title: "Are you sure?",
             text: `Do you want to ${
-              params.row.status === "active" ? "Deactivate" : "Activate"
+              params.row.status ? "Deactivate" : "Activate"
             } ${params?.row?.name} ?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText:
-              params.row.status === "active" ? "Deactivate" : "Activate",
+            confirmButtonText: params.row.status ? "Deactivate" : "Activate",
           }).then((result) => {
-            if (result.isConfirmed) handleDeleteUser(params?.id);
+            if (result.isConfirmed)
+              handleUpdateUser(params?.id, { status: !params.row.status });
           });
         }}
       >
-        {params.row.status === "active" ? (
-          <span style={{ color: "green" }}>Active</span>
+        {params.row.status ? (
+          <Button variant="contained" color="error">
+            Inactive
+          </Button>
         ) : (
-          <span style={{ color: "red" }}>Inactive</span>
+          <Button variant="contained" color="success">
+            Active
+          </Button>
         )}
       </IconButton>
     );
@@ -87,15 +91,15 @@ function DataTable({ rows, handleDeleteUser }) {
       headerName: "Status",
       renderCell: statusButton,
       disableClickEventBubbling: true,
-      width: 110,
+      width: 130,
     },
-    {
-      field: "edit",
-      headerName: "Edit",
-      renderCell: editButton,
-      disableClickEventBubbling: true,
-      width: 110,
-    },
+    // {
+    //   field: "edit",
+    //   headerName: "Edit",
+    //   renderCell: editButton,
+    //   disableClickEventBubbling: true,
+    //   width: 110,
+    // },
     {
       field: "delete",
       headerName: "Delete",

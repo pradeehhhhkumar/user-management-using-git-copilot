@@ -84,7 +84,7 @@ const controller = {
       });
     }
   },
-  updateUserDetails: async (req, res) => {
+  updateUser: async (req, res) => {
     try {
       const user = await UserModel.findByIdAndUpdate(req.params?.id, req.body, {
         new: true,

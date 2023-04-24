@@ -27,7 +27,11 @@ const Home = () => {
     <Box className="homepage">
       {Boolean(localStorage.getItem("token") && userId) && (
         <>
-          {name && <h2 style={{ fontSize: "50px" }}>Welcome, {name}</h2>}
+          {name && (
+            <h2 style={{ fontSize: "50px", color: "white" }}>
+              Welcome, {name}
+            </h2>
+          )}
           <Button
             variant="contained"
             color="primary"

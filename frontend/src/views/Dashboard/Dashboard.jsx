@@ -5,7 +5,11 @@ import { Box, Button } from "@mui/material";
 import "./dashboard.css";
 import DataTable from "./DataTable";
 import { useNavigate } from "react-router-dom";
-import { deleteUser, getAllUsers } from "../../services/userService";
+import {
+  deleteUser,
+  getAllUsers,
+  updateUser,
+} from "../../services/userService";
 import { toast } from "react-toastify";
 
 const Dashboard = () => {
@@ -30,6 +34,19 @@ const Dashboard = () => {
     try {
       const response = await getAllUsers();
       if (response?.status === 200) setUsers(response?.data?.data);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const handleUpdateStatus = async (id, data) => {
+    try {
+      setIsDeleting(true);
+      const response = await updateUser(id, data);
+      if (response?.status === 200) {
+        setIsDeleting(false);
+        toast.success(response?.data?.message);
+      }
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -68,7 +85,11 @@ const Dashboard = () => {
         </Button>
       </Box>
       <Box className="dashboard">
-        <DataTable rows={users} handleDeleteUser={handleDeleteUser} />
+        <DataTable
+          rows={users}
+          handleDeleteUser={handleDeleteUser}
+          handleUpdateUser={handleUpdateStatus}
+        />
       </Box>
     </Box>
   );

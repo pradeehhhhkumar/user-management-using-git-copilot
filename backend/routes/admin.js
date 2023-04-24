@@ -12,8 +12,6 @@ router.get("/", adminController.getAllUsers);
 // delete user by id
 router.delete("/:id", adminController.deleteUser);
 // update user by id
-router.patch("/:id/:status", adminController.updateUserDetails);
-// block user by id
-router.put("/block/:id", adminController.blockUser);
+router.put("/:id", adminController.updateUser);
 
 module.exports = router;

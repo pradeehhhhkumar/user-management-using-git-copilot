@@ -52,7 +52,7 @@ export const me = (id) => {
 };
 
 export const updateUser = (id, data) => {
-  const url = `/user/${id}`;
+  const url = `/admin/${id}`;
   const config = {
     headers: {
       authorization: localStorage.getItem("token"),
@@ -76,6 +76,21 @@ export const deleteUser = (id) => {
   return new Promise((resolve, reject) => {
     axiosInstance
       .delete(url, config)
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
+export const updateStatus = (id,status) => {
+  const url = `/admin/${id}`;
+  const config = {
+    headers: {
+      authorization: localStorage.getItem("token"),
+    },
+  };
+  return new Promise((resolve, reject) => {
+    axiosInstance
+      .put(url, status, config)
       .then((response) => resolve(response))
       .catch((err) => reject(err));
   });
