@@ -2,11 +2,22 @@
 const UserModel = require("../Models/UserModel");
 const bcrypt = require("bcrypt");
 const createToken = require("../utils/createToken");
+// import userSchema for validation with Joi
+const userSchema = require("../schema/user");
 
 const controller = {
   // write sample register function with async
   register: async (req, res) => {
     try {
+      // validate userSchema with Joi
+      const { error } = userSchema.validate(req.body);
+      // send response for validation error
+      if (error) {
+        return res.status(400).json({
+          status: "failure",
+          message: error.details[0].message,
+        });
+      }
 
       // check if user already exists
       const userExists = await UserModel.findOne({
