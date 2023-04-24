@@ -1,0 +1,14 @@
+.dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logoutBtn {
+  height: "50px !important";
+}
+
+.userTable {
+  width: 80%;
+}
