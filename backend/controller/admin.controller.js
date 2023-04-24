@@ -122,29 +122,6 @@ const controller = {
       });
     }
   },
-  blockUser: async (req, res) => {
-    try {
-      const { id, status } = req.params;
-      const user = await UserModel.findByIdAndUpdate(
-        id,
-        { status },
-        { new: true }
-      );
-      // send response for user details block
-      return res.status(200).json({
-        status: "success",
-        message: "User status updated successfully",
-        data: user,
-      });
-    } catch (error) {
-      // send response for user details block failure
-      return res.status(400).json({
-        status: "failure",
-        message: "User status update failed",
-        data: { error },
-      });
-    }
-  },
 };
 
 module.exports = controller;

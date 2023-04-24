@@ -50,7 +50,7 @@ function DataTable({ rows, handleDeleteUser, handleUpdateUser }) {
         aria-label="edit"
         onClick={() => {
           console.log("Edit button clicked", params.row.id);
-          navigate("/edit", { state: { id: params.row.id } });
+          navigate(`/edit/${params.id}`);
         }}
       >
         <EditIcon />
@@ -93,13 +93,13 @@ function DataTable({ rows, handleDeleteUser, handleUpdateUser }) {
       disableClickEventBubbling: true,
       width: 130,
     },
-    // {
-    //   field: "edit",
-    //   headerName: "Edit",
-    //   renderCell: editButton,
-    //   disableClickEventBubbling: true,
-    //   width: 110,
-    // },
+    {
+      field: "edit",
+      headerName: "Edit",
+      renderCell: editButton,
+      disableClickEventBubbling: true,
+      width: 110,
+    },
     {
       field: "delete",
       headerName: "Delete",

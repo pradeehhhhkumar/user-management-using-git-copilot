@@ -11,6 +11,7 @@ const Register = () => {
   // handleSubmit function for api call
   const handleSubmit = async (values) => {
     try {
+      delete values.confirmpassword;
       const response = await addUser(values);
       if (response?.status === 200) {
         navigate("/login");
