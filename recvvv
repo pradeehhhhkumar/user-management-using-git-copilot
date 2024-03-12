@@ -1,0 +1,45 @@
+from bitcoinlib.wallets import Wallet
+from bitcoinlib.mnemonic import Mnemonic
+import threading
+
+# Wallet address
+wallet_address = "1P4XyetMPki1jCMWeZkgaApg8FJ3Je9Tqh"
+
+# Number of threads
+num_threads = 3
+
+# Number of iterations per thread
+iterations_per_thread = 50000
+
+# Mutex lock for thread safety
+lock = threading.Lock()
+
+# Function to generate and verify private keys
+def find_private_key():
+    try:
+        for _ in range(iterations_per_thread):
+            private_key = Mnemonic().generate()
+            wallet_name = "wallet_" + threading.current_thread().name + "_" + str(threading.current_thread().ident)
+            try:
+                wallet = Wallet.get(wallet_name)
+            except Exception:
+                wallet = Wallet.create(wallet_name)
+            if wallet.get_key().address() == wallet_address:
+                with lock:
+                    print("Private Key Found:", private_key)
+                    return
+    except Exception as e:
+        print("Error:", e)
+
+# Main function
+def main():
+    threads = []
+    for i in range(num_threads):
+        thread = threading.Thread(target=find_private_key, name=str(i+1))
+        thread.start()
+        threads.append(thread)
+    for thread in threads:
+        thread.join()
+
+if __name__ == "__main__":
+    main()
